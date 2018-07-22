@@ -1,0 +1,42 @@
+{
+  "name": "thingy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "kesslern <nathant93@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "ci": "yarpm build && yarpm test",
+    "build": "tsc --rootdir ./src --outDir ./build",
+    "run": "yarpm build && node ./build/language.js",
+    "repl": "yarpm build && node ./build/repl.js",
+    "test": "jest",
+    "watch": "jest --watch"
+  },
+  "dependencies": {
+    "@types/jest": "^23.1.4",
+    "@types/node": "^10.5.1",
+    "@types/readline-sync": "^1.4.3",
+    "jest": "^23.3.0",
+    "readline-sync": "^1.4.9",
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
+  },
+  "devDependencies": {
+    "yarpm": "^0.2.1"
+  },
+  "jest": {
+    "rootDir": "./src",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
