@@ -1,9 +1,9 @@
-import * as readlineSync from 'readline-sync'
 import * as fs from 'fs'
+import * as readlineSync from 'readline-sync'
 
-import Token from './Token'
-import Scanner from './Scanner'
 import Lox from './Lox'
+import Scanner from './Scanner'
+import Token from './Token'
 
 const { argv } = process
 
@@ -24,9 +24,8 @@ function runPrompt(): void {
   while (true) {
     const input = readlineSync.question('> ')
 
-    if (input === '') {
-      break
-    }
+    if (input === '') break
+
     run(input)
     Lox.hadError = false
   }
@@ -34,5 +33,5 @@ function runPrompt(): void {
 
 function run(input: string): void {
   const tokens: Token[] = new Scanner(input).tokens
-  tokens.forEach(token => console.log(token.toString()))
+  tokens.forEach((token) => console.log(token.toString()))
 }

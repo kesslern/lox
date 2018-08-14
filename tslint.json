@@ -1,0 +1,12 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "no-console": false,
+    "semicolon": [true, "never"],
+    "curly": [true, "ignore-same-line"]
+  }
+}

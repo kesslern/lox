@@ -1,10 +1,10 @@
 import TokenType from './TokenType'
 
 export default class Token {
-  type: TokenType
-  lexeme: string
-  literal: object
-  line: number
+  public type: TokenType
+  public lexeme: string
+  public literal: object
+  public line: number
 
   constructor(type: TokenType, lexeme: string, literal: object, line: number) {
     this.type = type
@@ -13,5 +13,5 @@ export default class Token {
     this.line = line
   }
 
-  toString = (): string => `${this.type} ${this.lexeme} ${this.literal}`
+  public toString = (): string => `${this.type} ${this.lexeme} ${this.literal}`
 }

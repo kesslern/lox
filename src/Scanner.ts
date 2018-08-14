@@ -1,13 +1,13 @@
-import TokenType  from './TokenType'
+import Lox from './Lox'
 import Token from './Token'
-import Lox from './Lox';
+import TokenType from './TokenType'
 
 export default class Scanner {
-  source: string
-  tokens: Token[] = []
-  start = 0
-  current = 0
-  line = 1
+  public source: string
+  public tokens: Token[] = []
+  public start = 0
+  public current = 0
+  public line = 1
 
   constructor(source: string) {
     this.source = source
@@ -19,7 +19,7 @@ export default class Scanner {
       this.scanToken()
     }
 
-    this.tokens.push(new Token(TokenType.EOF, "", null, this.line))
+    this.tokens.push(new Token(TokenType.EOF, '', null, this.line))
   }
 
   private isAtEnd = (): boolean => this.current >= this.source.length
@@ -43,7 +43,7 @@ export default class Scanner {
       case '>': return this.addToken(this.match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER)
       case '/':
         if (this.match('/')) {
-          while (this.peek() != '\n' && !this.isAtEnd()) this.advance()
+          while (this.peek() !== '\n' && !this.isAtEnd()) this.advance()
         } else {
           this.addToken(TokenType.SLASH)
         }
@@ -52,12 +52,12 @@ export default class Scanner {
     }
   }
 
-  private advance = ():string => this.source.charAt(this.current++)
+  private advance = (): string => this.source.charAt(this.current++)
 
   private peek = (): string => this.isAtEnd() ? '' : this.source.charAt(this.current)
 
   private addToken(type: TokenType, literal: object = null) {
-    console.log("Adding token type " + type)
+    console.log('Adding token type ' + type)
     const {current, line, source, start, tokens} = this
 
     const text: string = source.substring(start, current)
@@ -66,7 +66,7 @@ export default class Scanner {
 
   private match(expected: string): boolean {
     if (this.isAtEnd()) return false
-    if (this.source.charAt(this.current) != expected) return false
+    if (this.source.charAt(this.current) !== expected) return false
 
     this.current++
     return true
