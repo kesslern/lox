@@ -3,10 +3,10 @@ import TokenType from './TokenType'
 export default class Token {
   public type: TokenType
   public lexeme: string
-  public literal: object
+  public literal: string | number
   public line: number
 
-  constructor(type: TokenType, lexeme: string, literal: object, line: number) {
+  constructor(type: TokenType, lexeme: string, literal: string | number, line: number) {
     this.type = type
     this.lexeme = lexeme
     this.literal = literal

@@ -3,11 +3,11 @@ import Token from './Token'
 import TokenType from './TokenType'
 
 export default class Scanner {
-  public source: string
   public tokens: Token[] = []
-  public start = 0
-  public current = 0
-  public line = 1
+  private source: string
+  private start = 0
+  private current = 0
+  private line = 1
 
   constructor(source: string) {
     this.source = source
@@ -21,6 +21,22 @@ export default class Scanner {
 
     this.tokens.push(new Token(TokenType.EOF, '', null, this.line))
   }
+public number() {
+    while (this.isDigit(this.peek())) this.advance()
+
+    // Look for a fractional part.
+    if (this.peek() === '.' && this.isDigit(this.peekNext())) {
+      // Consume the "."
+      this.advance()
+
+      while (this.isDigit(this.peek())) this.advance()
+    }
+
+    this.addToken(TokenType.NUMBER,
+        Number(this.source.substring(this.start, this.current)))
+  }
+
+  private isDigit = (c: string) =>  c >= '0' && c <= '9'
 
   private isAtEnd = (): boolean => this.current >= this.source.length
 
@@ -48,15 +64,38 @@ export default class Scanner {
           this.addToken(TokenType.SLASH)
         }
         break
-      default: return Lox.error(this.line, `Unexpected character: ${c}`)
+      case ' ':
+      case '\r':
+      case '\t':
+        // Ignore whitespace.
+        break
+
+      case '\n':
+        this.line++
+        break
+      case '"':
+        this.string()
+        break
+      default:
+      if (this.isDigit(c)) {
+        return this.number()
+      } else {
+        return Lox.error(this.line, `Unexpected character: ${c}`)
+      }
     }
+  }
+
+  private peekNext(): string {
+    const { current, source } = this
+    if (current + 1 >= source.length) return '\0'
+    return source.charAt(current + 1)
   }
 
   private advance = (): string => this.source.charAt(this.current++)
 
   private peek = (): string => this.isAtEnd() ? '' : this.source.charAt(this.current)
 
-  private addToken(type: TokenType, literal: object = null) {
+  private addToken(type: TokenType, literal: string|number = null) {
     console.log('Adding token type ' + type)
     const {current, line, source, start, tokens} = this
 
@@ -70,5 +109,25 @@ export default class Scanner {
 
     this.current++
     return true
+  }
+
+  private string() {
+    while (this.peek() !== '"' && !this.isAtEnd()) {
+      if (this.peek() === '\n') this.line++
+      this.advance()
+    }
+
+    // Unterminated string.
+    if (this.isAtEnd()) {
+      Lox.error(this.line, 'Unterminated string.')
+      return
+    }
+
+    // The closing ".
+    this.advance()
+
+    // Trim the surrounding quotes.
+    const value: string = this.source.substring(this.start + 1, this.current - 1)
+    this.addToken(TokenType.STRING, value)
   }
 }
