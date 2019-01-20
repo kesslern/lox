@@ -1,6 +1,6 @@
 import TokenType from './TokenType'
 
-const ReservedWords:{ [index: string] : TokenType } = {
+const ReservedWords: { [index: string]: TokenType } = {
   and:    TokenType.AND,
   class:  TokenType.CLASS,
   else:   TokenType.ELSE,
@@ -18,6 +18,5 @@ const ReservedWords:{ [index: string] : TokenType } = {
   var:    TokenType.VAR,
   while:  TokenType.WHILE,
 }
-
 
 export default ReservedWords

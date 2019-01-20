@@ -1,7 +1,7 @@
 import Lox from './Lox'
+import ReservedWords from './ReservedWords'
 import Token from './Token'
 import TokenType from './TokenType'
-import ReservedWords from './ReservedWords'
 
 export default class Scanner {
   /** Publicly available list of tokens, generated on construction of the class. */
@@ -9,11 +9,11 @@ export default class Scanner {
 
   /** Source program stream to parse into tokens. */
   private source: string
-  
+
   /** Start location of the current token in `this.source`. */
   private start = 0
 
-  /** Location in `this.stream` currently being examined. */  
+  /** Location in `this.stream` currently being examined. */
   private current = 0
 
   /** Current line in `this.source`. Advanced each time `\n` is encountered. */
@@ -43,7 +43,7 @@ export default class Scanner {
   private isAlpha = (c: string) => (
     (c >= 'a' && c <= 'z') ||
     (c >= 'A' && c <= 'Z') ||
-    c == '_'
+    c === '_'
   )
 
   /** Check if a character is alpha, numeric, or an underscore. */
@@ -132,7 +132,7 @@ export default class Scanner {
   /**
    * Checks if the next character in the stream is a specific character. If it is, advance the stream
    * by one character.
-   * @param expected - A character to match next in the stream. 
+   * @param expected - A character to match next in the stream.
    * @returns true if the next character is expected, false otherwise.
    */
   private match(expected: string): boolean {
@@ -181,11 +181,11 @@ export default class Scanner {
   }
 
   /** Parse an identifier from the current position and add it to `this.tokens`. */
-  private identifier() {                
-    while (this.isAlphaNumeric(this.peek())) this.advance();
+  private identifier() {
+    while (this.isAlphaNumeric(this.peek())) this.advance()
 
     const { source, start, current } = this
     const text: string = source.substring(start, current)
-    this.addToken(ReservedWords[text] || TokenType.IDENTIFIER);                    
-  }  
+    this.addToken(ReservedWords[text] || TokenType.IDENTIFIER)
+  }
 }
