@@ -25,10 +25,8 @@ export default class Scanner {
    */
   constructor(source: string) {
     this.source = source
-    console.log('starting scan')
 
     while (!this.isAtEnd()) {
-      console.log(`scanning for another token, start: ${this.start}, current: ${this.current}`)
       this.start = this.current
       this.scanToken()
     }
@@ -125,7 +123,6 @@ export default class Scanner {
     const {current, line, source, start, tokens} = this
 
     const text: string = source.substring(start, current)
-    console.log(`Adding token type ${type} text ${text}`)
     tokens.push(new Token(type, text, literal, line))
   }
 
