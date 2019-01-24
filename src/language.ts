@@ -1,7 +1,9 @@
 import * as fs from 'fs'
 import * as readlineSync from 'readline-sync'
 
+import { AstPrinter } from './Expr'
 import Lox from './Lox'
+import Parser from './Parser'
 import Scanner from './Scanner'
 import Token from './Token'
 
@@ -33,5 +35,9 @@ function runPrompt(): void {
 
 function run(input: string): void {
   const tokens: Token[] = new Scanner(input).tokens
-  tokens.forEach((token) => console.log(token.toString()))
+  const expression = new Parser(tokens).parse()
+
+  if (Lox.hadError) return
+
+  console.log(new AstPrinter().print(expression))
 }
